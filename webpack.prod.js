@@ -11,8 +11,13 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = merge(common, {
 	entry: {
-		index: './src/index.js',
-		another: './src/another_module.js'
+		index: './src/index.js'
+	},
+
+	output: {
+		filename: '[name].bundle.js',
+		chunkFilename: '[name].bundle.js',
+		path: path.resolve(__dirname, 'dist')
 	},
 
 	module: {
@@ -22,7 +27,8 @@ module.exports = merge(common, {
 			loader: 'babel-loader',
 
 			options: {
-				presets: ['es2015']
+				presets: ['es2015'],
+				plugins: ['syntax-dynamic-import']
 			}
 		},
 		{
@@ -75,10 +81,6 @@ module.exports = merge(common, {
 			'process.env': {
 				'NODE_ENV': JSON.stringify('production')
 			}
-		}),
-		// 移除公用重复的模块
-		new webpack.optimize.CommonsChunkPlugin({
-			name: 'common' // 指定公用模块的名字
 		})
 	]
 });
