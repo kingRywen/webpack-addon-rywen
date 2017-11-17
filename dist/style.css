@@ -1,0 +1,11 @@
+body {
+  background: url(images/img.bf176a25b4f8227fea804854c98dc5e2.png) 0 0 no-repeat; }
+
+@font-face {
+  font-family: 'rec';
+  src: url(fonts/SpectralSC-Bold.ef04315ef06d50b7e763442571ebd6dc.ttf) format("truetype"); }
+
+body {
+  border: 12px solid #ff0000;
+  font-size: 36px;
+  font-family: 'rec'; }
