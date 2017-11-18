@@ -2,6 +2,7 @@ const merge = require('webpack-merge')
 const webpack = require('webpack');
 const path = require('path');
 const common = require('./webpack.common');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // 压缩js文件
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -28,7 +29,7 @@ module.exports = merge(common, {
 
 			options: {
 				presets: ['es2015'],
-				plugins: ['syntax-dynamic-import']
+				plugins: ['syntax-dynamic-import', 'transform-async-to-generator']
 			}
 		},
 		{
@@ -81,6 +82,11 @@ module.exports = merge(common, {
 			'process.env': {
 				'NODE_ENV': JSON.stringify('production')
 			}
-		})
+		}),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'server',
+      analyzerHost: '127.0.0.1',
+      analyzerPort: 2000
+    })
 	]
 });
