@@ -12,12 +12,13 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = merge(common, {
 	entry: {
-		index: './src/index.js'
+		index: './src/index.js',
+		vendor: ['lodash']
 	},
 
 	output: {
-		filename: '[name].bundle.js',
-		chunkFilename: '[name].bundle.js',
+		filename: '[name].[chunkhash].js',
+		// chunkFilename: '[name].[chunkhash].js',
 		path: path.resolve(__dirname, 'dist')
 	},
 
@@ -76,8 +77,16 @@ module.exports = merge(common, {
 	},
 
 	plugins: [
+		new webpack.HashedModuleIdsPlugin(),
+		// CommonsChunkPlugin 的 'vendor' 实例，必须在 'runtime' 实例之前引入
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'vendor'
+		}),
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'runtime'
+		}),
 		new UglifyJSPlugin(),
-		new ExtractTextPlugin('style.css'),
+		new ExtractTextPlugin('[name].[chunkhash].css'),
 		new webpack.DefinePlugin({
 			'process.env': {
 				'NODE_ENV': JSON.stringify('production')
@@ -86,7 +95,8 @@ module.exports = merge(common, {
     new BundleAnalyzerPlugin({
       analyzerMode: 'server',
       analyzerHost: '127.0.0.1',
-      analyzerPort: 2000
+			analyzerPort: 2000,
+			openAnalyzer: false
     })
 	]
 });
