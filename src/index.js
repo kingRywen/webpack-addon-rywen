@@ -1,11 +1,13 @@
-import _ from 'lodash'
+import { file, helper } from "./global.js";
 
 console.log(
-  _.join(['Another', 'module'], ' ')
+  join(['Another', 'module'], ' ')
 )
 
+console.log(file, helper.parse())
 
-if (module.hot) {
-  module.hot.accept();
-}
+
+// if (module.hot) {
+//   module.hot.accept();
+// }
 
