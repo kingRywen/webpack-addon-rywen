@@ -2,6 +2,7 @@ const merge = require('webpack-merge')
 const webpack = require('webpack');
 const path = require('path');
 const common = require('./webpack.common');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 // 压缩js文件
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -11,8 +12,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = merge(common, {
 	entry: {
-		index: './src/index.js',
-		another: './src/another_module.js'
+		index: './src/index.js'
 	},
 
 	module: {
@@ -22,6 +22,7 @@ module.exports = merge(common, {
 			loader: 'babel-loader',
 
 			options: {
+				plugins: ['transform-runtime', 'transform-es3-member-expression-literals', 'lodash'],
 				presets: ['es2015']
 			}
 		},
@@ -69,16 +70,13 @@ module.exports = merge(common, {
 	},
 
 	plugins: [
-		new UglifyJSPlugin(),
-		new ExtractTextPlugin('style.css'),
 		new webpack.DefinePlugin({
 			'process.env': {
 				'NODE_ENV': JSON.stringify('production')
 			}
 		}),
-		// 移除公用重复的模块
-		new webpack.optimize.CommonsChunkPlugin({
-			name: 'common' // 指定公用模块的名字
-		})
+		new LodashModuleReplacementPlugin(),
+		// new UglifyJSPlugin(),
+		new ExtractTextPlugin('style.css')
 	]
 });

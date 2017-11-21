@@ -1,2 +1,3 @@
-# webpack-addon-rywen
-用于生成webpack脚手架，告别繁琐的配置过程
+# 导出loadash调用的函数
+
+实现按需导出lodash函数，节省空间，达到tree shaking的目的
